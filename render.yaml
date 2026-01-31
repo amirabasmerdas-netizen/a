@@ -2,10 +2,19 @@ services:
   - type: web
     name: telegram-routine-bot
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
     startCommand: python main.py
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
+      - key: WEBHOOK_URL
+        sync: false
+      - key: RENDER
+        value: "true"
       - key: PYTHON_VERSION
         value: 3.13.0
+    healthCheckPath: /health
+    autoDeploy: true
+    plan: free
